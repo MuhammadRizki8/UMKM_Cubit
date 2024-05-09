@@ -1,4 +1,4 @@
-import 'package:umkm_bloc/cubit/umkm_state.dart';
+import 'package:umkm_bloc/model/umkm_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';

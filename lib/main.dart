@@ -1,8 +1,9 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:umkm_bloc/cubit/daftar_umkm_cubit.dart';
-import 'package:umkm_bloc/cubit/umkm_cubit.dart';
+import 'package:provider/provider.dart';
+import 'package:umkm_bloc/model/umkm_state.dart';
 import 'package:umkm_bloc/page/home_page.dart';
+import 'package:umkm_bloc/provider/daftar_umkm_provider.dart';
+import 'package:umkm_bloc/provider/umkm_provider.dart';
 
 //model berisi data/state
 
@@ -16,14 +17,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: MultiBlocProvider(
+      home: MultiProvider(
         providers: [
-          BlocProvider<umkmListCubit>(
-            create: (_) => umkmListCubit(),
-          ),
-          BlocProvider<umkmCubit>(
-            create: (_) => umkmCubit(),
-          ),
+          ChangeNotifierProvider(
+              create: (context) => umkmProvider(
+                  umkm: umkmModel(
+                      id: "",
+                      name: "",
+                      type: "",
+                      memberSejak: "",
+                      omzetBulan: "",
+                      lamaUsaha: ""))),
+          ChangeNotifierProvider(
+              create: (context) => umkmListProvider(listUmkm: [])),
         ],
         child: const HomePage(),
       ),

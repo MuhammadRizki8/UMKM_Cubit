@@ -1,25 +1,16 @@
+import 'package:flutter/material.dart';
 import 'package:umkm_bloc/model/umkm_state.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class umkmListCubit extends Cubit<List<umkmModel>> {
+class umkmListProvider extends ChangeNotifier {
   String url = "http://127.0.0.1:8000/daftar_umkm";
-  umkmListCubit()
-      : super([
-          umkmModel(
-              id: "",
-              name: "",
-              type: "",
-              memberSejak: "",
-              omzetBulan: "",
-              lamaUsaha: "")
-        ]);
-
+  List<umkmModel> listUmkm = [];
+  umkmListProvider({required this.listUmkm});
   //map dari json ke atribut
   void setFromJson(Map<String, dynamic> json) {
     List<dynamic> data = json['data'];
-    List<umkmModel> umkmList = data
+    listUmkm = data
         .map((e) => umkmModel(
             id: e['id'],
             name: e['name'],
@@ -28,7 +19,7 @@ class umkmListCubit extends Cubit<List<umkmModel>> {
             omzetBulan: e['omzet_bulan'],
             lamaUsaha: e['lama_usaha']))
         .toList();
-    emit(umkmList);
+    notifyListeners();
   }
 
   void fetchData() async {
